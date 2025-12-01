@@ -7,11 +7,8 @@ module Load =
         File.ReadLines("../../../day1.txt")
         |> Seq.map (fun s -> s.Trim())
         |> Seq.map (fun s -> s.[0..0], int s.[1..])
-        |> Seq.toList
 
 module Part1 =
-    let directions = Load.directions
-
     let updateTotal acc total =
         if acc = 0 then total + 1 else total
 
@@ -20,16 +17,14 @@ module Part1 =
         if result < 0 then result + 100 elif result >= 100 then result - 100 else result
 
     let finalAcc, finalTotal =
-        directions
-        |> List.fold (fun (acc, total) (dir, value) ->
+        Load.directions
+        |> Seq.fold (fun (acc, total) (dir, value) ->
             let newAcc = updateAcc acc (value%100) dir
             let newTotal = updateTotal newAcc total
             (newAcc, newTotal)
         ) (50, 0)
 
 module Part2 =
-    let directions = Load.directions
-
     let updateAcc acc value direction total =
         let rotations = int value / 100
         let modValue = value % 100
@@ -44,8 +39,8 @@ module Part2 =
             (result, total + rotations)
 
     let finalAcc, finalTotal =
-        directions
-        |> List.fold (fun (acc, total) (dir, value) ->
+        Load.directions
+        |> Seq.fold (fun (acc, total) (dir, value) ->
             let newAcc, newTotal = updateAcc acc value dir total
             (newAcc, newTotal)
         ) (50, 0)
