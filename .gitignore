@@ -1,0 +1,34 @@
+# Build directories
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code settings
+.vscode/
+
+# Paket dependency manager
+.paket/
+paket-files/
+
+# F# script files output
+*.fsx.lock
+
+# NuGet packages
+*.nupkg
+*.snupkg`
+packages/
+.nuget/
+
+# Other
+*.log
+*.DS_Store
+*.vs/
+*.idea
+input.txt
+day*.txt
+TestResults/
