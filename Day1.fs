@@ -29,14 +29,15 @@ module Part2 =
         let rotations = int value / 100
         let modValue = value % 100
         let result = if direction = "R" then acc + modValue else acc - modValue
-        if result < 0 then
-            (result + 100, (if acc = 0 then total + rotations else total + rotations + 1))
-        elif result >= 100 then
-            (result - 100, (if acc = 0 then total + rotations else total + rotations + 1))
-        elif result = 0 then
-            (result, total + rotations + 1)
-        else
-            (result, total + rotations)
+        match result with
+        | r when r < 0 ->
+            (r + 100, if acc = 0 then total + rotations else total + rotations + 1)
+        | r when r >= 100 ->
+            (r - 100, if acc = 0 then total + rotations else total + rotations + 1)
+        | 0 ->
+            (0, total + rotations + 1)
+        | r ->
+            (r, total + rotations)
 
     let finalAcc, finalTotal =
         Load.directions
