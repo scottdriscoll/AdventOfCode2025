@@ -2,12 +2,15 @@ namespace day1
 
 open System.IO
 
-module Part1 =
+module Load =
     let directions =
         File.ReadLines("../../../day1.txt")
         |> Seq.map (fun s -> s.Trim())
         |> Seq.map (fun s -> s.[0..0], int s.[1..])
         |> Seq.toList
+
+module Part1 =
+    let directions = Load.directions
 
     let updateTotal acc total =
         if acc = 0 then total + 1 else total
@@ -24,3 +27,25 @@ module Part1 =
             (newAcc, newTotal)
         ) (50, 0)
 
+module Part2 =
+    let directions = Load.directions
+
+    let updateAcc acc value direction total =
+        let rotations = int value / 100
+        let modValue = value % 100
+        let result = if direction = "R" then acc + modValue else acc - modValue
+        if result < 0 then
+            (result + 100, (if acc = 0 then total + rotations else total + rotations + 1))
+        elif result >= 100 then
+            (result - 100, (if acc = 0 then total + rotations else total + rotations + 1))
+        elif result = 0 then
+            (result, total + rotations + 1)
+        else
+            (result, total + rotations)
+
+    let finalAcc, finalTotal =
+        directions
+        |> List.fold (fun (acc, total) (dir, value) ->
+            let newAcc, newTotal = updateAcc acc value dir total
+            (newAcc, newTotal)
+        ) (50, 0)
